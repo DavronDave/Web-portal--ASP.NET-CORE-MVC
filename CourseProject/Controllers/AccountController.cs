@@ -1,20 +1,32 @@
 ﻿using CourseProject.Models;
+using CourseProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace CourseProject.Controllers
 {
-    public class HomeController : Controller
+    public class AccountController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<AccountController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public AccountController(ILogger<AccountController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Register()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(AccountRegisterViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+
+            }
             return View();
         }
 

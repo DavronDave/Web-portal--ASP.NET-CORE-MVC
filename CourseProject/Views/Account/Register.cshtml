@@ -1,0 +1,38 @@
+﻿@model AccountRegisterViewModel
+
+
+@{
+    ViewData["Title"] = "Register page";
+}
+
+<div class="row ">
+    <div class="col-md-4">
+        <form method="post" class="list-group-item bg-info">
+           @* <div asp-validation-summary="All" class="text-danger"></div>*@
+            <div class="form-group m-1">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group m-1">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group m-1">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group m-1">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="form-group m-1">
+                <input type="submit" class="btn btn-primary" value="Register" />
+            </div>
+        </form>
+    </div>
+</div>
