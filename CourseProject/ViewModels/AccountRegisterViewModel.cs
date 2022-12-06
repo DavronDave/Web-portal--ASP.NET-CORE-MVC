@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CourseProject.ViewModels
 {
@@ -8,6 +9,7 @@ namespace CourseProject.ViewModels
         public string? Name { get; set; }
         [Required]
         [EmailAddress]
+        [Remote(action:"IsEmailInUse", controller:"Account")]
         public string? Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
