@@ -1,0 +1,29 @@
+﻿@model IEnumerable<IdentityRole>
+
+@{
+    ViewData["Title"] = "Roles list";
+}
+
+@if(Model.Any())
+{
+    @foreach (var role in Model)
+    {
+        <div class="card-header">
+            <label>@role.Name</label>
+        </div>
+    }
+}
+else
+{
+     <div class="card">
+        <div class="card-header">
+            <label>No created roles</label>
+        </div>
+        <div class="card-body">
+           
+        </div>
+        <div class="card-footer">
+             <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Administration">Create role</a>
+        </div>
+     </div>
+}

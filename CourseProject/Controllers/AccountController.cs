@@ -38,7 +38,7 @@ namespace CourseProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser() { UserName = viewModel.Email, Email = viewModel.Email };
+                var user = new IdentityUser() { UserName = viewModel.Name, Email = viewModel.Email };
                 var result = await _userManager.CreateAsync(user, viewModel.Password);
                 if (result.Succeeded)
                 {
