@@ -1,0 +1,12 @@
+﻿@model IEnumerable<ReviewCategory>
+
+@{
+    ViewData["Title"] = "User Categories";
+}
+
+<h1>User categories</h1>
+
+@foreach(var cat in Model)
+{
+    <a>@cat.Name</a>
+}

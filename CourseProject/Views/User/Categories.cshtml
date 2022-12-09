@@ -1,0 +1,13 @@
+﻿@model IEnumerable<ReviewCategory>
+
+@{
+    ViewData["Title"] = "User categories";
+}
+
+<h1>User categories</h1>
+
+@foreach(var cat in Model)
+{
+    <a asp-action="CreateReview" asp-controller="User" asp-route-Id="@cat.Id">@cat.Name</a>
+     <br />
+}

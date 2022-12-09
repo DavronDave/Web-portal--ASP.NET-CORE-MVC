@@ -1,4 +1,5 @@
 using DataLayer.Data;
+using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +23,7 @@ builder.Services.AddRazorPages();
 //    //options.ReturnUrlParameter=""
 //});
 builder.Services.AddDbContext<UserDbContext>(option => option.UseSqlServer(connectionString));
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<UserDbContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>

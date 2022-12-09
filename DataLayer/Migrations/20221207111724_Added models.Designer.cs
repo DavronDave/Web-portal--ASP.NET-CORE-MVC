@@ -4,6 +4,7 @@ using DataLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221207111724_Added models")]
+    partial class Addedmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,26 +32,34 @@ namespace DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ReviewCategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ReviewCategoryId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("DataLayer.Models.ReviewCategory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -62,38 +72,6 @@ namespace DataLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ReviewCategories");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.ReviewTag", b =>
-                {
-                    b.Property<int>("ReviewId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ReviewId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("ReviewTag");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("DataLayer.Models.User", b =>
@@ -296,41 +274,26 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Review", b =>
                 {
-                    b.HasOne("DataLayer.Models.ReviewCategory", "Category")
+                    b.HasOne("DataLayer.Models.ReviewCategory", "ReviewCategory")
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.ReviewCategory", b =>
-                {
                     b.HasOne("DataLayer.Models.User", "User")
-                        .WithMany("ReviewCategories")
+                        .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("ReviewCategory");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.ReviewTag", b =>
+            modelBuilder.Entity("DataLayer.Models.ReviewCategory", b =>
                 {
-                    b.HasOne("DataLayer.Models.Review", "Review")
-                        .WithMany("ReviewTags")
-                        .HasForeignKey("ReviewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Models.Tag", "Tag")
-                        .WithMany("ReviewTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Review");
-
-                    b.Navigation("Tag");
+                    b.HasOne("DataLayer.Models.User", null)
+                        .WithMany("ReviewCategories")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -384,19 +347,9 @@ namespace DataLayer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Review", b =>
-                {
-                    b.Navigation("ReviewTags");
-                });
-
             modelBuilder.Entity("DataLayer.Models.ReviewCategory", b =>
                 {
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Tag", b =>
-                {
-                    b.Navigation("ReviewTags");
                 });
 
             modelBuilder.Entity("DataLayer.Models.User", b =>

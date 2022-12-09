@@ -1,0 +1,11 @@
+﻿@model IEnumerable<User>
+
+@{
+    ViewData["Title"] = "Users list";
+}
+
+@foreach(var user in Model)
+{
+    <a asp-action="UserCategories" asp-controller="User" asp-route-Id="@user.Id">@user.UserName</a>
+    <br />
+}

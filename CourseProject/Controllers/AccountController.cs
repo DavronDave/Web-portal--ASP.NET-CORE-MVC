@@ -1,5 +1,6 @@
 ﻿using CourseProject.Models;
 using CourseProject.ViewModels;
+using DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +10,11 @@ namespace CourseProject.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager,
-                                 SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<User> userManager,
+                                 SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,7 +39,7 @@ namespace CourseProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser() { UserName = viewModel.Name, Email = viewModel.Email };
+                var user = new User() { UserName = viewModel.Email, Email = viewModel.Email };
                 var result = await _userManager.CreateAsync(user, viewModel.Password);
                 if (result.Succeeded)
                 {
