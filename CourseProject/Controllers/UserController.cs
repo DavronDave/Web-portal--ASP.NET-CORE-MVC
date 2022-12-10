@@ -1,4 +1,5 @@
 ﻿using CourseProject.ViewModels;
+using CourseProject.ViewModels.User;
 using DataLayer.Data;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -28,27 +29,16 @@ namespace CourseProject.Controllers
         public IActionResult Categories()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var categories = _dbContext.ReviewCategories.Where(x => x.UserId == userId);
-            return View(categories);
-        }
+            CategoriesViewModel categories = new CategoriesViewModel()
+            {
+                ReviewCategories = _dbContext.ReviewCategories.Where(x => x.UserId == userId)
+            };
 
-        [HttpGet]
-        public IActionResult UserCategories(string id)
-        {
-            var categories = _dbContext.ReviewCategories.Where(x => x.UserId == id);
             return View(categories);
-        }
-
-        [HttpGet]
-        [Authorize]
-        public IActionResult CreateCategory()
-        {
-            return View();
         }
 
         [HttpPost]
-        [Authorize]
-        public IActionResult CreateCategory(ReviewCategory category)
+        public IActionResult Categories(ReviewCategory category)
         {
             if (ModelState.IsValid)
             {
@@ -62,13 +52,25 @@ namespace CourseProject.Controllers
                 _dbContext.ReviewCategories.Add(cat);
                 _dbContext.SaveChanges();
             }
-            return View();
+
+            return RedirectToAction();
         }
 
         [HttpGet]
-        public IActionResult CreateReview()
+        public IActionResult UserCategories(string id)
         {
-            return View();
+            var categories = _dbContext.ReviewCategories.Where(x => x.UserId == id);
+            return View(categories);
+        }
+
+        [HttpGet]
+        public IActionResult CreateReview(int id)
+        {
+            ReviewViewModel model = new ReviewViewModel()
+            {
+                Reviews = _dbContext.Reviews.Where(x => x.ReviewCategoryId==id)
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -81,13 +83,12 @@ namespace CourseProject.Controllers
                 {
                     Name = review.Name,
                     ReviewCategoryId = review.Id
-                    //Category=review.Category
                 };
                 _dbContext.Reviews.Add(review1);
                 _dbContext.SaveChanges();
             }
 
-            return View(review);
+            return RedirectToAction();
         }
     }
 }

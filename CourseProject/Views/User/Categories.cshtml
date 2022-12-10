@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReviewCategory>
+﻿@model CategoriesViewModel
 
 @{
     ViewData["Title"] = "User categories";
@@ -6,8 +6,23 @@
 
 <h1>User categories</h1>
 
-@foreach(var cat in Model)
+@foreach(var cat in Model.ReviewCategories)
 {
     <a asp-action="CreateReview" asp-controller="User" asp-route-Id="@cat.Id">@cat.Name</a>
      <br />
 }
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="All"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create Category" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
