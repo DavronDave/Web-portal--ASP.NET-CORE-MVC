@@ -4,26 +4,37 @@
     ViewData["Title"] = "Roles list";
 }
 
-@if(Model.Any())
+@if (Model.Any())
 {
-    @foreach (var role in Model)
-    {
-        <div class="card-header">
-            <label>@role.Name</label>
-        </div>
-    }
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>Role</th>
+            <th>Edit</th>
+        </tr>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>
+                    <a asp-action="EditRole" asp-controller="Administration" asp-route-Id="@role.Id" class="btn btn-primary">Edit</a>
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="card-footer">
+        <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Administration">Create role</a>
+    </div>
 }
 else
 {
-     <div class="card">
+    <div class="card">
         <div class="card-header">
             <label>No created roles</label>
         </div>
         <div class="card-body">
-           
         </div>
         <div class="card-footer">
-             <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Administration">Create role</a>
+            <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Administration">Create role</a>
         </div>
-     </div>
+    </div>
 }
