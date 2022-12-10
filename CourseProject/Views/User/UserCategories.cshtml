@@ -8,5 +8,6 @@
 
 @foreach(var cat in Model)
 {
-    <a>@cat.Name</a>
+    <a asp-action="CreateReview" asp-controller="User" asp-route-Id="@cat.Id">@cat.Name</a>
+   <br />
 }

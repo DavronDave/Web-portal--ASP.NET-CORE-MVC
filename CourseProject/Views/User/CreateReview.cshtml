@@ -4,20 +4,35 @@
     ViewData["Title"] = "Create Review";
 }
 
-@foreach(var review in Model.Reviews)
-{
-    <a>@review.Name</a>
-    <br />
-}
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th class="">Name</th>
+        <th class="">Edit</th>
+        <th class="">Delete</th>
+    </tr>
+    @foreach (var review in Model.Reviews)
+    {
+        <tr>
+            <td>@review.Name</td>
+            <td>
+                <button class="btn btn-primary">Edit</button>
+            </td>
+            <td>
+                <button class="btn btn-danger text-white">Delete</button>
+            </td>
+        </tr>
+    }
+
+</table>
+
 
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-            <div asp-validation-summary="All"></div>
             <div claas="form-group">
-                 <label asp-for="Name"></label>
-                 <input asp-for="Name" class="form-control" />
-                 <span  asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <div class="form-group">
