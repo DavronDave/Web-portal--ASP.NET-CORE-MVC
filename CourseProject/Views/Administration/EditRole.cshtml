@@ -1,4 +1,4 @@
-﻿ @model EditRoleViewModel
+﻿@model EditRoleViewModel
 
 @{
     ViewData["Title"] = "Edit Role";
@@ -14,26 +14,27 @@
     <div class="form-group">
         <input type="submit" value="Update" class="btn btn-primary" />
     </div>
-</form>
 
-<div class="card mt-3">
-    <div class="card-header">
-         <label>Users in this role</label>
-    </div>
-    <div class="card-body">
-        @if(Model.Users.Any())
-        {
-            foreach (var user in Model.Users)
+    <div class="card mt-3">
+        <div class="card-header">
+            <label>Users in this role</label>
+        </div>
+        <div class="card-body">
+            @if (Model.Users.Any())
             {
-                 <h5 class="card-title">@user</h5>
+                foreach (var user in Model.Users)
+                {
+                    <h5 class="card-title">@user</h5>
+                }
             }
-        }
-        else
-        {
-            <h5>None at the moment</h5>
-        }
+            else
+            {
+                <h5>None at the moment</h5>
+            }
+        </div>
+        <div class="card-footer">
+            <a asp-action="EditUsersInRole" asp-controller="Administration"
+                   asp-route-roleId="@Model.Id" class="btn btn-primary" >Add or remove role</a>
+        </div>
     </div>
-    <div class="card-footer">
-         <input class="btn btn-primary" value="Add or remove role" />
-    </div>
-</div>
+</form>

@@ -27,11 +27,17 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Users">Users</a>
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="Users">Users</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Categories">Info</a>
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="Categories">Info</a>
                         </li>
+                        @if(signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                 <a class="nav-link text-dark" asp-action="ListRoles" asp-controller="Administration" >Admin</a>
+                            </li>
+                        }
                     </ul>
                     <ul class="navbar-nav">
                         @if (signInManager.IsSignedIn(User))
