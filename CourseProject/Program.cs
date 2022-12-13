@@ -7,21 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("UserContextConnection") ?? throw new InvalidOperationException("Connection string 'UserContextConnection' not found.");
 
 // Add services to the container.
-// builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-//builder.Services.AddMvc().AddXmlSerializerFormatters();
+builder.Services.AddMvc();
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        options.ClientId = "135190411804-ahev6q29e5us97nmkfeegnmjquq1bq4j.apps.googleusercontent.com";
+        options.ClientSecret = "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";
+    });
 
-//builder.Services.ConfigureApplicationCookie(options =>
-//{
-//    // Cookie settings
-//    options.Cookie.HttpOnly = true;
-//    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-//    options.LoginPath = "/Account/Login";
-//    options.LogoutPath = "/Account/Logout";
-//    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-//    options.SlidingExpiration = true;
-//    //options.ReturnUrlParameter=""
-//});
 builder.Services.AddDbContext<UserDbContext>(option => option.UseSqlServer(connectionString));
 builder.Services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<UserDbContext>();

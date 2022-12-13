@@ -58,9 +58,14 @@ namespace CourseProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult> Login(string returnUrl)
         {
-            return View();
+            AccountLoginViewModel model = new AccountLoginViewModel()
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -84,6 +89,13 @@ namespace CourseProject.Controllers
             return RedirectToAction();
         }
 
+        [HttpPost]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);   
+            return new ChallengeResult(provider, properties);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Logout()
