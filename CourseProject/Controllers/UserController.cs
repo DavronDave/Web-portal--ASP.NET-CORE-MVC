@@ -90,5 +90,12 @@ namespace CourseProject.Controllers
 
             return RedirectToAction();
         }
+
+        [HttpGet]
+        public IActionResult ReviewDetails(int id)
+        {
+            var review = _dbContext.Reviews.Where(x => x.Id == id).FirstOrDefault();
+            return View(review);
+        }
     }
 }

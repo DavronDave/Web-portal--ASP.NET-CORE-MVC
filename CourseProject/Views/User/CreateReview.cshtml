@@ -7,7 +7,8 @@
 <table class="table table-bordered table-striped table-hover">
     <tr>
         <th class="">Name</th>
-        <th class="">Edit</th>
+        <th class="">Edit</th>     
+        <th class="">View</th>
         <th class="">Delete</th>
     </tr>
     @foreach (var review in Model.Reviews)
@@ -16,6 +17,9 @@
             <td>@review.Name</td>
             <td>
                 <button class="btn btn-primary">Edit</button>
+            </td>
+            <td>
+                <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">View</a>
             </td>
             <td>
                 <button class="btn btn-danger text-white">Delete</button>
