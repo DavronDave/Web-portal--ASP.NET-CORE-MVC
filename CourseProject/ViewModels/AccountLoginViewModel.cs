@@ -5,7 +5,7 @@ namespace CourseProject.ViewModels
     public class AccountLoginViewModel
     {
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
         public string? Email { get; set; }
         [Required]
         [DataType(DataType.Password)]

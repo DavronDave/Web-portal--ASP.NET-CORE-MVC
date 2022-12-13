@@ -39,7 +39,7 @@ namespace CourseProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User() { UserName = viewModel.Email, Email = viewModel.Email };
+                var user = new User() { UserName = viewModel.Name, Email = viewModel.Email };
                 var result = await _userManager.CreateAsync(user, viewModel.Password);
                 if (result.Succeeded)
                 {
@@ -81,7 +81,7 @@ namespace CourseProject.Controllers
                     ModelState.AddModelError("", "Username not found");
                 
             }
-            return View(viewModel);
+            return RedirectToAction();
         }
 
 

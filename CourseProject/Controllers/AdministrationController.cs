@@ -170,7 +170,7 @@ namespace CourseProject.Controllers
                     if (i < (models.Count - 1))
                         continue;
                     else
-                        return RedirectToAction("EditRole");
+                        return RedirectToAction("EditRole", new {Id = roleId});
                 }
             }
             return RedirectToAction("EditRole", new {Id = roleId});
