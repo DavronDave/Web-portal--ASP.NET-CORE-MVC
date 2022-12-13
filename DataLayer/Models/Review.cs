@@ -14,7 +14,5 @@ namespace DataLayer.Models
         public ICollection<ReviewTag>? ReviewTags { get; set; }        
         public int ReviewCategoryId { get; set; }
         public ReviewCategory? Category { get; set; }
-
-
     }
 }

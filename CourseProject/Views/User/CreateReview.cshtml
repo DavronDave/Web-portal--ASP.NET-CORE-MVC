@@ -16,13 +16,15 @@
         <tr>
             <td>@review.Name</td>
             <td>
-                <button class="btn btn-primary">Edit</button>
+                <a asp-action="EditReview" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">Edit</a>
             </td>
             <td>
                 <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">View</a>
             </td>
             <td>
-                <button class="btn btn-danger text-white">Delete</button>
+                <form method="post" asp-action="DeleteReview" asp-route-id="@review.Id">
+                    <button type="submit" class="btn btn-danger text-white">Delete</button>
+               </form>
             </td>
         </tr>
     }

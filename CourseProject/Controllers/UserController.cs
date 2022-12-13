@@ -5,6 +5,7 @@ using DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace CourseProject.Controllers
@@ -96,6 +97,49 @@ namespace CourseProject.Controllers
         {
             var review = _dbContext.Reviews.Where(x => x.Id == id).FirstOrDefault();
             return View(review);
+        }
+
+        [HttpGet]
+        public IActionResult EditReview(int id)
+        {
+            var review = _dbContext.Reviews.Where(x => x.Id == id).FirstOrDefault();
+            return View(review);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditReview(Review review)
+        {
+            var deletedReview = await _dbContext.Reviews.Where(x => x.Id == review.Id).FirstOrDefaultAsync();
+           
+            if(deletedReview != null)
+            {
+                var review1 = new Review()
+                {
+                    Name = review.Name,
+                    ReviewCategoryId = deletedReview.ReviewCategoryId
+                };
+                _dbContext.Reviews.Remove(deletedReview);
+                _dbContext.Reviews.Add(review1);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("CreateReview", new { id = review1.ReviewCategoryId });
+            }
+
+            return RedirectToAction();
+        }
+
+        [HttpPost]
+        public IActionResult DeleteReview(int id)
+        {
+            var deletedReview = _dbContext.Reviews.Where(x => x.Id==id).FirstOrDefault();
+
+           if( deletedReview != null)
+            {
+                _dbContext.Reviews.Remove(deletedReview);
+                _dbContext.SaveChanges();
+
+                return RedirectToAction("CreateReview", new { id = deletedReview.ReviewCategoryId });
+            }
+
+            return RedirectToAction();
         }
     }
 }
