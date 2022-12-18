@@ -14,6 +14,11 @@ builder.Services.AddAuthentication()
     {
         options.ClientId = "135190411804-ahev6q29e5us97nmkfeegnmjquq1bq4j.apps.googleusercontent.com";
         options.ClientSecret = "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";
+    })
+    .AddFacebook(options =>
+    {
+        options.ClientId = "493709486186070";
+        options.ClientSecret = "b48df9382e3167f8c6edf0df70575490";
     });
 
 builder.Services.AddDbContext<UserDbContext>(option => option.UseSqlServer(connectionString));

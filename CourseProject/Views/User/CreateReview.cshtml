@@ -7,26 +7,37 @@
 <table class="table table-bordered table-striped table-hover">
     <tr>
         <th class="">Name</th>
-        <th class="">Edit</th>     
+        <th class="">Edit</th>
         <th class="">View</th>
         <th class="">Delete</th>
     </tr>
-    @foreach (var review in Model.Reviews)
-    {
-        <tr>
-            <td>@review.Name</td>
-            <td>
-                <a asp-action="EditReview" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">Edit</a>
-            </td>
-            <td>
-                <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">View</a>
-            </td>
-            <td>
-                <form method="post" asp-action="DeleteReview" asp-route-id="@review.Id">
-                    <button type="submit" class="btn btn-danger text-white">Delete</button>
-               </form>
-            </td>
-        </tr>
+    @{
+        if (Model.Reviews.Any())
+        {
+            @foreach (var review in Model.Reviews)
+            {
+                <tr>
+                    <td>@review.Name</td>
+                    <td>
+                        <a asp-action="EditReview" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">View</a>
+                    </td>
+                    <td>
+                        <form method="post" asp-action="DeleteReview" asp-route-id="@review.Id">
+                            <button type="submit" class="btn btn-danger text-white">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">No data</td>
+            </tr>
+        }
     }
 
 </table>

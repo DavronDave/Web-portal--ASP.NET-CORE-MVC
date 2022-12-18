@@ -6,7 +6,7 @@ namespace CourseProject.ViewModels
     public class AccountLoginViewModel
     {
         [Required]
-        //[EmailAddress]
+        // [EmailAddress]
         public string? Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
@@ -14,8 +14,8 @@ namespace CourseProject.ViewModels
         [Display(Name ="Remember me")]
         public bool RememberMe { get; set; }
 
-        public string ReturnUrl { get; set; }
+        public string? ReturnUrl { get; set; }
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public IList<AuthenticationScheme>? ExternalLogins { get; set; }
     }
 }

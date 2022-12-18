@@ -23,7 +23,7 @@ namespace CourseProject.Controllers
         [HttpGet]
         public IActionResult Users()
         {
-            var users = _userManager.Users;
+            var users = _userManager.Users.OrderBy(x => x.UserName);
             return View(users);
         }
         [HttpGet]
