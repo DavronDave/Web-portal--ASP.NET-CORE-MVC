@@ -1,17 +1,20 @@
-﻿@model IEnumerable<IdentityRole>
+﻿@model ListRolesViewModel
 
 @{
     ViewData["Title"] = "Roles list";
 }
 
-@if (Model.Any())
+@if (Model.IdentityRoles.Any())
 {
+    <div class="card-footer">
+        <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Administration">Create role</a>
+    </div>
     <table class="table table-bordered table-hover">
         <tr>
             <th>Role</th>
             <th>Edit</th>
         </tr>
-        @foreach (var role in Model)
+        @foreach (var role in Model.IdentityRoles)
         {
             <tr>
                 <td>@role.Name</td>
@@ -21,9 +24,7 @@
             </tr>
         }
     </table>
-    <div class="card-footer">
-        <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Administration">Create role</a>
-    </div>
+   
 }
 else
 {
@@ -38,3 +39,28 @@ else
         </div>
     </div>
 }
+
+@*<table class="table table-bordered table-hover">
+    <tr>
+        <th>Username</th>
+        <th>Block</th>
+        <th>Delete</th>
+    </tr>
+
+    @{
+        foreach (var name in Model.Names)
+        {
+            <tr>
+                <td>
+                    <a>@name</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger">Block</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    }
+</table>*@
