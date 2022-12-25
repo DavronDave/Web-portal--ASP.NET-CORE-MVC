@@ -36,7 +36,7 @@
                             <a class="btn btn-primary">Unblock</a>
                         </td>
                         <td>
-                            <button asp-action="Delete" asp-route-id="@Model[i].UserId" class="btn btn-danger" value="Delete" />
+                        <button asp-action="Delete" asp-route-id="@Model[i].UserId" asp-route-roleId="@roleId" class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
                 }

@@ -2,6 +2,7 @@
 using DataLayer.Data;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -142,6 +143,11 @@ namespace CourseProject.Controllers
                 model.Add(userRoleViewModel);
             }
 
+            //var userRoles = new EditUsersInRoleViewModels()
+            //{
+            //    UserRoles = model
+            //};
+
             return View(model);
 
         }
@@ -205,7 +211,7 @@ namespace CourseProject.Controllers
                 _dbContext.SaveChanges();
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("EditUsersInRole", new {roleId = roleId});
+                    return RedirectToAction("EditUsersInRole","Administration", new {roleId = roleId});
                 }
 
             }
