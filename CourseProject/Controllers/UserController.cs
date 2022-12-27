@@ -12,10 +12,10 @@ namespace CourseProject.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<UserApplication> _userManager;
         private readonly UserDbContext _dbContext;
 
-        public UserController(UserManager<User> userManager, UserDbContext dbContext)
+        public UserController(UserManager<UserApplication> userManager, UserDbContext dbContext)
         {
             _userManager = userManager;
             _dbContext = dbContext;

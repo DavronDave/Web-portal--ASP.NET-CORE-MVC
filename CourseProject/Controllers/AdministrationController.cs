@@ -12,11 +12,11 @@ namespace CourseProject.Controllers
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<UserApplication> _userManager;
         private readonly UserDbContext _dbContext;
 
         public AdministrationController(RoleManager<IdentityRole> roleManager,
-            UserManager<User> userManager, UserDbContext dbContext)
+            UserManager<UserApplication> userManager, UserDbContext dbContext)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -129,7 +129,8 @@ namespace CourseProject.Controllers
                 var userRoleViewModel = new UserRoleViewModel()
                 {
                     UserId = user.Id,
-                    UserName = user.UserName
+                    UserName = user.UserName,
+                    IsActive = user.IsActive
                 };
 
                 if (await _userManager.IsInRoleAsync(user, role.Name))
@@ -142,11 +143,6 @@ namespace CourseProject.Controllers
                 }
                 model.Add(userRoleViewModel);
             }
-
-            //var userRoles = new EditUsersInRoleViewModels()
-            //{
-            //    UserRoles = model
-            //};
 
             return View(model);
 
@@ -216,6 +212,30 @@ namespace CourseProject.Controllers
 
             }
             return RedirectToAction("EditUsersInRole");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Block(string id, string roleId)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if(user != null)
+            {
+                user.IsActive = false;
+                await _userManager.UpdateAsync(user);
+            }
+            return RedirectToAction("EditUsersInRole", "Administration", new { roleId = roleId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UnBlock(string id, string roleId)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                user.IsActive = true;
+                await _userManager.UpdateAsync(user);
+            }
+            return RedirectToAction("EditUsersInRole", "Administration", new { roleId = roleId });
         }
 
     }

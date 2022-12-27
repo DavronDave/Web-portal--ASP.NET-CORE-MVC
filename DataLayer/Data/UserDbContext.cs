@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Data
 {
-    public class UserDbContext : IdentityDbContext<User>
+    public class UserDbContext : IdentityDbContext<UserApplication>
     {
         public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options)

@@ -18,6 +18,7 @@ namespace CourseProject.ViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage ="Password and Confirm password do not match")]
         public string? ConfirmPassword { get; set; }
+        public bool IsActive { get; set; } = true;
 
     }
 }

@@ -2,9 +2,9 @@
 
 namespace DataLayer.Models
 {
-    public class User : IdentityUser
+    public class UserApplication : IdentityUser
     {
         public ICollection<ReviewCategory>? ReviewCategories { get; set; }
-        //public bool IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

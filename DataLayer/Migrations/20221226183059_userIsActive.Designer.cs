@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20221207112231_Added user models")]
-    partial class Addedusermodels
+    [Migration("20221226183059_userIsActive")]
+    partial class userIsActive
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,9 +32,6 @@ namespace DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -50,11 +47,11 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.ReviewCategory", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -67,6 +64,38 @@ namespace DataLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ReviewCategories");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.ReviewTag", b =>
+                {
+                    b.Property<int>("ReviewId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReviewId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ReviewTag");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("DataLayer.Models.User", b =>
@@ -86,6 +115,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -269,13 +301,13 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Review", b =>
                 {
-                    b.HasOne("DataLayer.Models.ReviewCategory", "ReviewCategory")
+                    b.HasOne("DataLayer.Models.ReviewCategory", "Category")
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ReviewCategory");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("DataLayer.Models.ReviewCategory", b =>
@@ -285,6 +317,25 @@ namespace DataLayer.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.ReviewTag", b =>
+                {
+                    b.HasOne("DataLayer.Models.Review", "Review")
+                        .WithMany("ReviewTags")
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Models.Tag", "Tag")
+                        .WithMany("ReviewTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Review");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -338,9 +389,19 @@ namespace DataLayer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DataLayer.Models.Review", b =>
+                {
+                    b.Navigation("ReviewTags");
+                });
+
             modelBuilder.Entity("DataLayer.Models.ReviewCategory", b =>
                 {
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.Tag", b =>
+                {
+                    b.Navigation("ReviewTags");
                 });
 
             modelBuilder.Entity("DataLayer.Models.User", b =>

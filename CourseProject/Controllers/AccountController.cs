@@ -5,17 +5,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Linq;
 using System.Security.Claims;
 
 namespace CourseProject.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<UserApplication> _userManager;
+        private readonly SignInManager<UserApplication> _signInManager;
 
-        public AccountController(UserManager<User> userManager,
-                                 SignInManager<User> signInManager)
+        public AccountController(UserManager<UserApplication> userManager,
+                                 SignInManager<UserApplication> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -40,7 +41,12 @@ namespace CourseProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User() { UserName = viewModel.Name, Email = viewModel.Email };
+                var user = new UserApplication() 
+                {
+                    UserName = viewModel.Name,
+                    Email = viewModel.Email,
+                    IsActive=viewModel.IsActive
+                };
                 var result = await _userManager.CreateAsync(user, viewModel.Password);
                 if (result.Succeeded)
                 {
@@ -71,23 +77,35 @@ namespace CourseProject.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Login(AccountLoginViewModel viewModel, string? returnUrl)
-        {
+        {   viewModel.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(viewModel.Email, viewModel.Password,
-                    viewModel.RememberMe, false);
-
-                if (result.Succeeded)
+                var user = await _userManager.FindByNameAsync(viewModel.UserName);
+                if (_userManager.Users.Contains(user))
                 {
-                    if (!string.IsNullOrEmpty(returnUrl))
-                        return LocalRedirect(returnUrl);
+                    if (user.IsActive == true)
+                    {
+                        var result = await _signInManager.PasswordSignInAsync(viewModel.UserName, viewModel.Password,
+                                        viewModel.RememberMe, false);
+                        if (result.Succeeded)
+                        {
+                            if (!string.IsNullOrEmpty(returnUrl))
+                                return LocalRedirect(returnUrl);
+                            else
+                            {
+                                return RedirectToAction("Categories", "User");
+                            }
+                        }
+                        else
+                            ModelState.AddModelError(String.Empty, "Username or password incorrect!");
+                    }
                     else
-                        return RedirectToAction("Register", "Account");
+                        ModelState.AddModelError(String.Empty, "You are blocked!");
                 }
-                    ModelState.AddModelError("", "Username not found");
-                
+                else
+                    ModelState.AddModelError(String.Empty, "User not found");
             }
-            return RedirectToAction();
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -135,7 +153,7 @@ namespace CourseProject.Controllers
 
                     if(user == null)
                     {
-                        user = new User()
+                        user = new UserApplication()
                         {
                             UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
                             Email = info.Principal.FindFirstValue(ClaimTypes.Email)

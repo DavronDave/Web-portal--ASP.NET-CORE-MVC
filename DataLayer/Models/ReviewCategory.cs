@@ -11,7 +11,7 @@ namespace DataLayer.Models
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? UserId { get; set; }
-        public User? User { get; set; }
+        public UserApplication? User { get; set; }
         public ICollection<Review>? Reviews { get; set; }
 
     }

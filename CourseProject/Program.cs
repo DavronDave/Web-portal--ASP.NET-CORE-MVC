@@ -22,7 +22,7 @@ builder.Services.AddAuthentication()
     });
 
 builder.Services.AddDbContext<UserDbContext>(option => option.UseSqlServer(connectionString));
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<UserApplication, IdentityRole>()
                 .AddEntityFrameworkStores<UserDbContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>
