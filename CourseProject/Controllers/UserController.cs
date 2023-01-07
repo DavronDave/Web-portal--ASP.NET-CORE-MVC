@@ -10,6 +10,7 @@ using System.Security.Claims;
 
 namespace CourseProject.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly UserManager<UserApplication> _userManager;
@@ -20,16 +21,19 @@ namespace CourseProject.Controllers
             _userManager = userManager;
             _dbContext = dbContext;
         }
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Users()
         {
             var users = _userManager.Users.OrderBy(x => x.UserName);
             return View(users);
         }
+        
         [HttpGet]
         public IActionResult Categories()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
+            ViewBag.id= userId.ToString();
             CategoriesViewModel categories = new CategoriesViewModel()
             {
                 ReviewCategories = _dbContext.ReviewCategories.Where(x => x.UserId == userId)
@@ -61,15 +65,18 @@ namespace CourseProject.Controllers
         public IActionResult UserCategories(string id)
         {
             var categories = _dbContext.ReviewCategories.Where(x => x.UserId == id);
+            ViewBag.id = id;
             return View(categories);
         }
 
         [HttpGet]
-        public IActionResult CreateReview(int id)
+        public IActionResult CreateReview(int id, string userId)
         {
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
             ReviewViewModel model = new ReviewViewModel()
             {
-                Reviews = _dbContext.Reviews.Where(x => x.ReviewCategoryId==id)
+                Reviews = _dbContext.Reviews.Where(x => x.ReviewCategoryId==id),
+                IsEqual= user==userId ? true : false
             };
             return View(model);
         }

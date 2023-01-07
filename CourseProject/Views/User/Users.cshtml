@@ -8,16 +8,12 @@
      <table class="table table-bordered">
          <tr>
              <th>Username</th>
-             <th>Delete</th>
          </tr>
         @foreach (var user in Model)
         {
             <tr>
                 <td>
                     <a asp-action="UserCategories" asp-controller="User" asp-route-Id="@user.Id">@user.UserName</a>
-                </td>
-                <td>
-                    <button asp-route-id="@user.Id" asp-action="Delete" asp-controller="Administration" class="btn btn-primary">Delete</button>
                 </td>
             </tr>
         }

@@ -1,60 +1,91 @@
 ﻿@model ReviewViewModel
-
+@inject SignInManager<UserApplication> signInManager
 @{
     ViewData["Title"] = "Create Review";
 }
+@if ((signInManager.IsSignedIn(User) && User.IsInRole("Admin")) || Model.IsEqual==true)
+{
+    <table class="table table-bordered table-striped table-hover">
+        <tr>
+            <th class="">Name</th>
+            <th class="">Edit</th>
+            <th class="">View</th>
+            <th class="">Delete</th>
+        </tr>
+        @{
+            if (Model.Reviews.Any())
+            {
+                    @foreach (var review in Model.Reviews)
+                {
+                        <tr>
+                            <td>@review.Name</td>
+                            <td>
+                                <a asp-action="EditReview" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">Edit</a>
+                            </td>
+                            <td>
+                                <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">View</a>
+                            </td>
+                            <td>
+                                <form method="post" asp-action="DeleteReview" asp-route-id="@review.Id">
+                                    <button type="submit" class="btn btn-danger text-white">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                }
+            }
+            else
+            {
+                    <tr>
+                        <td colspan="4" class="text-center">No data</td>
+                    </tr>
+            }
+        }
 
-<table class="table table-bordered table-striped table-hover">
-    <tr>
-        <th class="">Name</th>
-        <th class="">Edit</th>
-        <th class="">View</th>
-        <th class="">Delete</th>
-    </tr>
-    @{
-        if (Model.Reviews.Any())
-        {
-            @foreach (var review in Model.Reviews)
+    </table>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <div claas="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create Review" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else{
+    <table class="table table-bordered table-striped table-hover">
+        <tr>
+            <th class="">Name</th>
+            <th class="">View</th>
+        </tr>
+        @{
+            if (Model.Reviews.Any())
+            {
+                @foreach (var review in Model.Reviews)
+                {
+                    <tr>
+                        <td>@review.Name</td>
+                        <td>
+                            <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">View</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@review.Name</td>
-                    <td>
-                        <a asp-action="EditReview" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">Edit</a>
-                    </td>
-                    <td>
-                        <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">View</a>
-                    </td>
-                    <td>
-                        <form method="post" asp-action="DeleteReview" asp-route-id="@review.Id">
-                            <button type="submit" class="btn btn-danger text-white">Delete</button>
-                        </form>
-                    </td>
+                    <td colspan="4" class="text-center">No data</td>
                 </tr>
             }
         }
-        else
-        {
-            <tr>
-                <td colspan="4" class="text-center">No data</td>
-            </tr>
-        }
-    }
 
-</table>
+    </table>
+}
 
-
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div claas="form-group">
-                <label asp-for="Name"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create Review" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>

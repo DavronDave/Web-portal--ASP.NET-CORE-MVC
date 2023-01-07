@@ -6,5 +6,7 @@ namespace CourseProject.ViewModels.User
     {
         public IQueryable<Review> Reviews { get; set; }
         public string Name { get; set; }
+
+        public bool IsEqual { get; set; }
     }
 }

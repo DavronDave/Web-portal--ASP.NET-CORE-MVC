@@ -8,7 +8,7 @@
 
 @foreach(var cat in Model.ReviewCategories)
 {
-    <a asp-action="CreateReview" asp-controller="User" asp-route-Id="@cat.Id">@cat.Name</a>
+    <a asp-action="CreateReview" asp-controller="User" asp-route-Id="@cat.Id" asp-route-UserId="@ViewBag.id">@cat.Name</a>
      <br />
 }
 
