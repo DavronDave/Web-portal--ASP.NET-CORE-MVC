@@ -5,15 +5,15 @@
 }
 
 <form asp-controller="Adminisration" method="post">
-     <table class="table table-bordered">
+     <table class="table table-bordered border-success">
          <tr>
-             <th>Username</th>
+             <th class="bg-success text-white">Users</th>
          </tr>
         @foreach (var user in Model)
         {
             <tr>
                 <td>
-                    <a asp-action="UserCategories" asp-controller="User" asp-route-Id="@user.Id">@user.UserName</a>
+                    <a class="page-link text-black" asp-action="UserCategories" asp-controller="User" asp-route-Id="@user.Id">@user.UserName</a>
                 </td>
             </tr>
         }

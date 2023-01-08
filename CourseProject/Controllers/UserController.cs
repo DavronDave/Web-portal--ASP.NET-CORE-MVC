@@ -34,6 +34,8 @@ namespace CourseProject.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             ViewBag.id= userId.ToString();
+            var user = _dbContext.Users.Where(x => x.Id==userId).FirstOrDefault();
+            ViewBag.user=user;
             CategoriesViewModel categories = new CategoriesViewModel()
             {
                 ReviewCategories = _dbContext.ReviewCategories.Where(x => x.UserId == userId)
@@ -62,14 +64,18 @@ namespace CourseProject.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult UserCategories(string id)
         {
             var categories = _dbContext.ReviewCategories.Where(x => x.UserId == id);
             ViewBag.id = id;
+            var user = _dbContext.Users.Where(x => x.Id==id).FirstOrDefault();
+            ViewBag.user = user;
             return View(categories);
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult CreateReview(int id, string userId)
         {
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -100,6 +106,7 @@ namespace CourseProject.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult ReviewDetails(int id)
         {
             var review = _dbContext.Reviews.Where(x => x.Id == id).FirstOrDefault();

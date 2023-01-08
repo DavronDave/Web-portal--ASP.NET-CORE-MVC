@@ -3,10 +3,10 @@
 @{
     ViewData["Title"] = "Create Review";
 }
-@if ((signInManager.IsSignedIn(User) && User.IsInRole("Admin")) || Model.IsEqual==true)
+@if ((signInManager.IsSignedIn(User) && User.IsInRole("Admin")) || Model.IsEqual == true)
 {
-    <table class="table table-bordered table-striped table-hover">
-        <tr>
+    <table class="table table-bordered table-striped table-hover border-success ">
+        <tr class="bg-success text-white">
             <th class="">Name</th>
             <th class="">Edit</th>
             <th class="">View</th>
@@ -15,29 +15,29 @@
         @{
             if (Model.Reviews.Any())
             {
-                    @foreach (var review in Model.Reviews)
+                @foreach (var review in Model.Reviews)
                 {
-                        <tr>
-                            <td>@review.Name</td>
-                            <td>
-                                <a asp-action="EditReview" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">Edit</a>
-                            </td>
-                            <td>
-                                <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">View</a>
-                            </td>
-                            <td>
-                                <form method="post" asp-action="DeleteReview" asp-route-id="@review.Id">
-                                    <button type="submit" class="btn btn-danger text-white">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>@review.Name</td>
+                        <td>
+                            <a asp-action="EditReview" asp-controller="User" asp-route-id="@review.Id" class="btn btn-success">Edit <i class="fa fa-edit" aria-hidden="true"></i></a>
+                        </td>
+                        <td>
+                            <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-success">View <i class="fa fa-eye" aria-hidden="true"></i></a>
+                        </td>
+                        <td>
+                            <form method="post" asp-action="DeleteReview" asp-route-id="@review.Id">
+                                <button type="submit" class="btn btn-danger text-white">Delete <i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </form>
+                        </td>
+                    </tr>
                 }
             }
             else
             {
-                    <tr>
-                        <td colspan="4" class="text-center">No data</td>
-                    </tr>
+                <tr>
+                    <td colspan="4" class="text-center">No data</td>
+                </tr>
             }
         }
 
@@ -52,16 +52,17 @@
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
-                    <input type="submit" value="Create Review" class="btn btn-primary" />
+                <div class="form-group mt-1">
+                    <button type="submit" class="btn btn-success">Create Review <i class="fa fa-plus" aria-hidden="true"></i></button>
                 </div>
             </form>
         </div>
     </div>
 }
-else{
-    <table class="table table-bordered table-striped table-hover">
-        <tr>
+else
+{
+    <table class="table table-bordered table-striped table-hover border-success ">
+        <tr class="bg-success text-white">
             <th class="">Name</th>
             <th class="">View</th>
         </tr>
@@ -73,7 +74,7 @@ else{
                     <tr>
                         <td>@review.Name</td>
                         <td>
-                            <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-primary">View</a>
+                            <a asp-action="ReviewDetails" asp-controller="User" asp-route-id="@review.Id" class="btn btn-success">View</a>
                         </td>
                     </tr>
                 }

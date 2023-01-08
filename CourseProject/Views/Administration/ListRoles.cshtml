@@ -7,7 +7,7 @@
 @if (Model.IdentityRoles.Any())
 {
     <div class="card-footer">
-        <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Administration">Create role</a>
+        <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Administration">Create role <i class="fa fa-plus" aria-hidden="true"></i></a>
     </div>
     <table class="table table-bordered table-hover">
         <tr>
@@ -19,7 +19,7 @@
             <tr>
                 <td>@role.Name</td>
                 <td>
-                    <a asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-primary">Edit <i class="fa fa-edit" aria-hidden="true"></i></a>
                 </td>
             </tr>
         }

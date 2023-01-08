@@ -4,10 +4,23 @@
     ViewData["Title"] = "User Categories";
 }
 
-<h1>User categories</h1>
 
-@foreach(var cat in Model)
-{
-    <a asp-action="CreateReview" asp-controller="User" asp-route-id="@cat.Id" asp-route-UserId="@ViewBag.id">@cat.Name</a>
-   <br />
-}
+
+
+
+<table class="table table-bordered border-success">
+    <tr>
+        <th class="bg-success text-white">
+           @ViewBag.user's categories
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @foreach (var cat in Model)
+            {
+                <a class="page-link text-black" asp-action="CreateReview" asp-controller="User" asp-route-id="@cat.Id" asp-route-UserId="@ViewBag.id">@cat.Name</a>
+                <br />
+            }
+        </td>
+    </tr>
+</table>
